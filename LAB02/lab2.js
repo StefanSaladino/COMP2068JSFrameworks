@@ -50,7 +50,6 @@ function userInput() {
     console.log(colors.green(`You selected: ${userSelection}`));
 
     computerChoice(userSelection);
-    // Define the schema for the input
   });
 }
 
@@ -102,12 +101,11 @@ function replay() {
       console.log('New game loading\n')
       userInput();
     }
-    //game exits if user doesnt want to play again
+    //game exits if user doesn't want to play again
     else if (playAgainSelection == 'no'){
       console.log('Goodbye');
       process.exit();
     }
-
 }
 )};
 
