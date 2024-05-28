@@ -1,14 +1,17 @@
 var prompt = require("prompt");
+var colors = require("@colors/colors/safe");
 
 prompt.start();
+
+prompt.message = ''; // Empty string to remove the prefix
 
 // Define the schema for the input
 const schema = {
   properties: {
     userSelection: {
-      description: "Choose ROCK, PAPER, or SCISSORS",
+      description: colors.rainbow("Choose ROCK, PAPER, or SCISSORS"),
       pattern: /^(rock|paper|scissors)$/i,
-      message: "Selection must be ROCK, PAPER, or SCISSORS",
+      message: colors.red("Selection must be ROCK, PAPER, or SCISSORS"),
       required: true,
       before: function (value) {
         return value.trim().toLowerCase();
@@ -20,9 +23,9 @@ const schema = {
 const replaySchema = {
   properties: {
     playAgain: {
-      description: "Play Again",
+      description: colors.magenta("Play Again"),
       pattern: /^(yes|no)$/i,
-      message: "Selection must be yes or no",
+      message: colors.red("Selection must be yes or no"),
       required: true,
       before: function (value) {
         return value.trim().toLowerCase();
@@ -44,7 +47,7 @@ function userInput() {
     const userSelection = result.userSelection;
 
     // Output the processed input
-    console.log(`You selected: ${userSelection}`);
+    console.log(colors.green(`You selected: ${userSelection}`));
 
     computerChoice(userSelection);
     // Define the schema for the input
@@ -64,7 +67,7 @@ function computerChoice(userSelection) {
     compThrow = "scissors";
   }
 
-  console.log("Computer selected: " + compThrow);
+  console.log(colors.red("Computer selected: " + compThrow));
 
   determineWinner(userSelection, compThrow);
 }
@@ -75,11 +78,11 @@ function determineWinner(userSelection, compThrow) {
     (userSelection == "paper" && compThrow == "rock") ||
     (userSelection == "scissors" && compThrow == "paper")
   ) {
-    console.log("YOU WIN");
+    console.log(colors.america("YOU WIN"));
   } else if (userSelection == compThrow) {
-    console.log("TIE GAME");
+    console.log(colors.yellow("TIE GAME"));
   } else {
-    console.log("YOU LOSE");
+    console.log(colors.red("YOU LOSE"));
   }
   replay();
 }
