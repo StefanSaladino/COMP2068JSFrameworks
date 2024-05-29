@@ -10,7 +10,7 @@ const schema = {
   properties: {
     userSelection: {
       description: colors.rainbow("Choose ROCK, PAPER, or SCISSORS"),
-      pattern: /^(rock|paper|scissors)$/i,
+      pattern: /^(rock|paper|scissors|r|p|s)$/i,
       message: colors.red("Selection must be ROCK, PAPER, or SCISSORS"),
       required: true,
       before: function (value) {
@@ -24,7 +24,7 @@ const replaySchema = {
   properties: {
     playAgain: {
       description: colors.magenta("Play Again"),
-      pattern: /^(yes|no)$/i,
+      pattern: /^(yes|no|y|n)$/i,
       message: colors.red("Selection must be yes or no"),
       required: true,
       before: function (value) {
@@ -43,6 +43,15 @@ function userInput() {
       return;
     }
 
+    if(result.userSelection == 'rock' || result.userSelection == 'r'){
+      result.userSelection = 'rock';
+    }
+    else if(result.userSelection == 'scissors' || result.userSelection == 's'){
+      result.userSelection = 'scissors';
+    }
+    else if(result.userSelection == 'paper' || result.userSelection == 'p'){
+      result.userSelection = 'paper';
+    }
     // Store the processed input in userSelection
     const userSelection = result.userSelection;
 
@@ -97,12 +106,12 @@ function replay() {
     const playAgainSelection = result.playAgain;
 
     //returned to main prompt if user wants to play again
-    if(playAgainSelection == 'yes'){
+    if(playAgainSelection == 'yes' || playAgainSelection == 'y'){
       console.log('New game loading\n')
       userInput();
     }
     //game exits if user doesn't want to play again
-    else if (playAgainSelection == 'no'){
+    else if (playAgainSelection == 'no' || playAgainSelection == 'n'){
       console.log('Goodbye');
       process.exit();
     }
