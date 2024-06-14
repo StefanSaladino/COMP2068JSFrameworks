@@ -29,6 +29,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css"
       rel="stylesheet"
     />
+    <script src="../javascripts/scripts.js"></script>
 
     <title>{{title}}</title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
@@ -40,7 +41,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body id="page-top">
+  <body>
     <!-- Navigation-->
     <nav
       class="navbar navbar-expand-lg navbar-light fixed-top py-3"
@@ -59,21 +60,15 @@
         ><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto my-2 my-lg-0">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About Me</a></li>
             <li class="nav-item"><a
                 class="nav-link"
-                href="#"
-              >Home</a></li>
-            <li class="nav-item"><a
-                class="nav-link"
-                href="#about"
-              >About Me</a></li>
-            <li class="nav-item"><a
-                class="nav-link"
-                href="#projects"
+                href="/projects"
               >Projects</a></li>
             <li class="nav-item"><a
                 class="nav-link"
-                href="#contact"
+                href="/contact"
               >Contact</a></li>
           </ul>
         </div>
@@ -82,17 +77,21 @@
 
     {{{body}}}
 
-    <footer class= "container-fluid">
-      
-        <p>
-          Stefan Saladino's Portfolio
-        </p>
-        <div>
-          <img src="./images/github.png" alt="Github">
-          <img src="./images/li.png" alt="LinkedIn">
-          <img src="./images/ig.png" alt="Instagram">
-        </div>
-      
+    <footer class="container-fluid">
+
+      <p>
+        Stefan Saladino's Portfolio
+      </p>
+      <div>
+        <a href= "https://github.com/StefanSaladino">
+        <img src="./images/github.png" alt="Github" ></a>
+        <a href= "#">
+          <img src="./images/li.png" alt="LinkedIn" ></a>
+
+        <a href= "https://www.instagram.com/stefansaladino/"> 
+        <img src="./images/ig.png" alt="Instagram" ></a>
+      </div>
+
     </footer>
     {{!bootstrap js}}
     <script

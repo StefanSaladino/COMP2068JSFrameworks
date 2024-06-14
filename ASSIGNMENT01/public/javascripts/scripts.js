@@ -56,4 +56,47 @@ window.addEventListener('DOMContentLoaded', event => {
         elements: '#portfolio a.portfolio-box'
     });
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the button elements
+        const frameworksButton = document.getElementById('frameworks');
+        const languagesButton = document.getElementById('languages');
+      
+        // Get the card sections
+        const frameworksCardSection = document.getElementById('frameworks-card');
+        const languagesCardSection = document.getElementById('languages-card');
+      
+        // Function to show frameworks and hide languages
+        function showFrameworks() {
+          frameworksCardSection.style.display = 'block';
+          languagesCardSection.style.display = 'none';
+        }
+      
+        // Function to show languages and hide frameworks
+        function showLanguages() {
+          frameworksCardSection.style.display = 'none';
+          languagesCardSection.style.display = 'block';
+        }
+      
+        // Add event listeners to buttons
+        frameworksButton.addEventListener('change', function () {
+          if (frameworksButton.checked) {
+            showFrameworks();
+          }
+        });
+      
+        languagesButton.addEventListener('change', function () {
+          if (languagesButton.checked) {
+            showLanguages();
+          }
+        });
+      
+        // Initialize the display based on the default selected button
+        if (frameworksButton.checked) {
+          showFrameworks();
+        } else {
+          showLanguages();
+        }
+      });
+      
+
 });
