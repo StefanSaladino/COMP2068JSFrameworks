@@ -63,7 +63,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
   // Function to show frameworks and hide languages
   function showFrameworks() {
-      frameworksCardSection.style.display = 'block';
+      frameworksCardSection.style.display = 'grid';
       languagesCardSection.style.display = 'none';
 
       frameworksButton.classList.add('active');
@@ -82,7 +82,7 @@ window.addEventListener('DOMContentLoaded', event => {
   // Function to show languages and hide frameworks
   function showLanguages() {
       frameworksCardSection.style.display = 'none';
-      languagesCardSection.style.display = 'block';
+      languagesCardSection.style.display = 'grid';
 
     languagesButton.closest('.btn-group').querySelectorAll('.btn').forEach(btn => {
         btn.classList.remove('active');

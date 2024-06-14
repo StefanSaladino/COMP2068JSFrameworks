@@ -219,6 +219,8 @@ nav {
   justify-content: center;
 }
 
+
+
 .second-card-group img{
   height: 10em;
   width: 10em;
@@ -226,4 +228,33 @@ nav {
 
 .accordion a{
   margin: 1em;
+}
+
+#proj-main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em; 
+  flex-direction: column;
+  margin: 5em 0em;
+}
+
+#proj-main p:first-of-type{
+  padding: 1em;
+}
+
+#contact-main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em; 
+  flex-direction: column;
+  margin: 5em 0em;
+}
+
+.second-card-group {
+  display: none; /* Initially hide both card groups */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em; /* Adjust the gap between cards as needed */
+  margin: 2em 0;
 }
