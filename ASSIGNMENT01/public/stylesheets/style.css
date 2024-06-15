@@ -1,3 +1,15 @@
+p{
+  font-size: 1.2rem;
+}
+
+h2{
+  font-size: 1.2rem;
+}
+
+h1{
+  font-size: 1.2rem;
+}
+
 html, body {
   height: 100%;
   margin: 0;
@@ -185,7 +197,7 @@ footer {
   height:15vh;
   bottom: 0;
   width: 100%;
-  
+  position: static;
 }
 
 footer img {
@@ -257,4 +269,82 @@ nav {
   grid-template-columns: repeat(2, 1fr);
   gap: 1em; /* Adjust the gap between cards as needed */
   margin: 2em 0;
+}
+
+#input-text-area{
+  height: 50vh;
+  width: 60vw;
+}
+
+
+
+.card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+body {
+  background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.input-group{
+  margin: 1em;
+  padding: 1em;
+ 
+}
+
+h2{
+font-size: 0.9rem;
+}
+
+
+
+#contact-main {
+  padding: 50px 0;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.input-group-text {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  
+}
+
+.input-group .form-control {
+  border-left: none;
+  border-right: none;
+  border-radius: 0 5px 5px 0;
+}
+
+
+textarea.form-control {
+  border-radius: 0 5px 5px 0;
+  
+}
+
+#input-e, #input-n{
+  width: 60vw;
 }
