@@ -1,3 +1,8 @@
+//Author: Stefan Saladino
+//Course: Javascript frameworks
+//Date: June 21/24
+//Description: URL parsing calculator that takes parameters from a url and outputs a result 
+
 //importing connect and url packages
 const connect = require('connect');
 const url = require('url');
