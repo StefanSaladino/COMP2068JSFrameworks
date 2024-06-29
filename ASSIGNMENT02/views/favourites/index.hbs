@@ -1,0 +1,22 @@
+  <h1>Your Favourite Spots!</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Status</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each favourites}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.address}}</td>
+        <td>{{this.status}}</td>
+        <td><a href="/favourites/delete/{{this._id}}" class="btn btn-danger btn-sm"
+                onClick="return confirmDelete()">DELETE</a></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>

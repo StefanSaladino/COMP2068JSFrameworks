@@ -1,23 +1,30 @@
-
-  <h1>{{title}}</h1>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each restaurants}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.vicinity}}</td>
-        <td>{{this.business_status}}</td>
-        <td></td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-
+<h1>RESTAURANTS NEAR YOU</h1>
+<form id="searchForm" method="POST" action="/api/search-restaurants">
+  <input type="hidden" id="latitude" name="latitude">
+  <input type="hidden" id="longitude" name="longitude">
+</form>
+<table class="table table-hover">
+  <thead>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </thead>
+  <tbody>
+    {{#each restaurants}}
+    <tr>
+      <td>{{this.name}}</td>
+      <td>{{this.vicinity}}</td>
+      <td>{{this.business_status}}</td>
+      <td>
+        <button class="btn btn-primary btn-sm favourite-button" 
+                data-name="{{this.name}}" 
+                data-vicinity="{{this.vicinity}}" 
+                data-status="{{this.business_status}}">
+          FAVOURITE
+        </button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
