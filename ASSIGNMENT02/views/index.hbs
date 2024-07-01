@@ -4,11 +4,21 @@
   <title>Restaurant Search</title>
 </head>
 <body>
-  <button id="searchButton">Search Restaurants</button>
-
+  <div class="container-fluid" id="index-main">
+  <div class="container-fluid" id="searchFormContainer">
+  <button id="searchButton" class="btn btn-light">Search Restaurants</button>
   <form id="searchForm" action="/results" method="post" style="display: none;">
     <input type="hidden" id="latitude" name="latitude">
     <input type="hidden" id="longitude" name="longitude">
   </form>
+  </div>
+  <div class="container-fluid" id="restaurantSearchText">
+    <p>Begin exploring restaurants near you now. Click here to be instantly connected with some of the most
+      popular restaurants near you. Whether you're a tourist in unfamiliar waters, or just want something new, search
+      now!
+    </p>
+    </div>
+
+  </div>
 </body>
 </html>
