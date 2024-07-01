@@ -1,24 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Restaurant Search</title>
+  <title>Quick Search App</title>
 </head>
 <body>
   <div class="container-fluid" id="index-main">
-  <div class="container-fluid" id="searchFormContainer">
+  <div class="container-fluid" id="searchButtonContainer">
   <button id="searchButton" class="btn btn-light">Search Restaurants</button>
-  <form id="searchForm" action="/results" method="post" style="display: none;">
-    <input type="hidden" id="latitude" name="latitude">
-    <input type="hidden" id="longitude" name="longitude">
-  </form>
   </div>
-  <div class="container-fluid" id="restaurantSearchText">
+  <div class="container-fluid" id="searchText">
     <p>Begin exploring restaurants near you now. Click here to be instantly connected with some of the most
       popular restaurants near you. Whether you're a tourist in unfamiliar waters, or just want something new, search
       now!
     </p>
     </div>
-
   </div>
+
+  <div class="container-fluid" id="missionStatement">
+    <h2>ABOUT US</h2>
+    <p>Have you ever been traveling and found yourself just unsure of where to go? Whether you wanted food or needed to
+      gas up your car? Too many results being found on your map applications? Tired of sifting through google search results
+      that read more like an essay than a list of restaurants. We've simplified it for you, don't worry. Click a button and find
+      restaurants or gas stations near you. You'll get a list and the addresses. Simple as that.
+    </p>
+  </div>
+
+  <div class="container-fluid" id="GS-main">
+  <div class="container-fluid" id="searchText">
+    <p>Running low on fuel? Not sure where to go to fill up? We got you, dont worry. Find the closest gas station now!
+    </p>
+    </div>
+  <div class="container-fluid" id="searchButtonContainer">
+    <button id="searchGasStationsButton" class="btn btn-light" data-search-term="gas%20station">Search Gas Stations</button>
+  </div>  
+  </div>
+
+
+
+  <form id="searchForm" action="/results" method="post" style="display: none;">
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+    <input type="hidden" id="searchTerm" name="searchTerm">
+  </form>
 </body>
 </html>

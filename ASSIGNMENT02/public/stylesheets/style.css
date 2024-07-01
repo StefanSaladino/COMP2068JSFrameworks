@@ -8,7 +8,7 @@ a {
 }
 
 
-#index-main {
+#index-main, #GS-main {
   position: relative;
   height: 75vh; 
   background: url('/images/restaurant-bg.jpg') no-repeat center center;
@@ -20,8 +20,13 @@ a {
   padding: 0 2em;
 }
 
+#GS-main{
+  background: url('/images/gs-bg.jpg') no-repeat center center;
+  background-size: cover;
+}
+
 /* Use ::after pseudo-element to darken the background */
-#index-main::after {
+#index-main::after, #GS-main::after {
   content: '';
   position: absolute;
   top: 0;
@@ -33,26 +38,31 @@ a {
 }
 
 /* Ensure the button and form are above the overlay */
-#searchButton, #searchForm, #searchFormContainer, #restaurantSearchText {
+#searchButton, #searchForm, #searchButtonContainer, #searchText, #searchGasStationsButton {
   position: relative;
   z-index: 2;
 }
 
-#searchFormContainer{
+#searchButtonContainer{
   width: 25%;
 }
 
-#restaurantSearchText{
+#searchText{
   color: white;
   width: 75%;
   font-size: 1.2rem;
 }
 
+#missionStatement{
+  padding: 2em;
+}
 
+#missionStatement p{
+  padding: 3em 2em;
+  border-bottom: 2px solid black;
+  margin: 1em 0;
+}
 
-
-
-
-
-
-
+#missionStatement h2{
+  text-align: center;
+}

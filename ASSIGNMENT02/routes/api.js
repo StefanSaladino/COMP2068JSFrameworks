@@ -3,15 +3,16 @@ const express = require('express');
 const router = express.Router();
 const https = require('https');
 
-router.post('/search-restaurants', (req, res) => {
+router.post('/search', (req, res) => {
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
+  const searchTerm = req.body.searchTerm;
 
   const options = {
     method: 'GET',
     hostname: 'map-places.p.rapidapi.com',
     port: null,
-    path: `/nearbysearch/json?location=${latitude},${longitude}&radius=1500&keyword=restaurant&type=restaurant`,
+    path: `/nearbysearch/json?location=${latitude},${longitude}&radius=1500&keyword=${searchTerm}&type=${searchTerm}`,
     headers: {
       'x-rapidapi-key': process.env.RAPIDAPI_KEY,
       'x-rapidapi-host': 'map-places.p.rapidapi.com'
@@ -28,9 +29,7 @@ router.post('/search-restaurants', (req, res) => {
     response.on('end', function () {
       const body = Buffer.concat(chunks);
       const data = JSON.parse(body.toString());
-
-      // Render the results.hbs page with the data
-      res.render('results', { restaurants: data.results });
+      res.json(data.results); // Send the results as JSON
     });
   });
 
