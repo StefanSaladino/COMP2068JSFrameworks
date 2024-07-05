@@ -6,6 +6,34 @@ document.addEventListener('DOMContentLoaded', function() {
   const longitudeInput = document.getElementById('longitude');
   const searchTermInput = document.getElementById('searchTerm');
 
+  document.querySelectorAll('.favourite-button').forEach(button => {
+    button.addEventListener('click', async function() {
+      const name = this.dataset.name;
+      const address = this.dataset.vicinity;
+      const status = this.dataset.status;
+
+      try {
+        const response = await fetch('/favourites', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, address, status })
+        });
+        const result = await response.json();
+        if (result.success) {
+          alert(`${result.name} added to favourites`);
+          window.location.href = '/favourites';
+        } else {
+          alert('Failed to add to favourites');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred');
+      }
+    });
+  });
+
   buttons.forEach(button => {
     button.addEventListener('click', async function() {
       const searchTerm = this.getAttribute('data-search-term');
@@ -44,28 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
       );
     });
   }
-
-  document.querySelectorAll('.favourite-button').forEach(button => {
-    button.addEventListener('click', async function() {
-      const name = this.dataset.name;
-      const address = this.dataset.vicinity;
-      const status = this.dataset.status;
-
-      try {
-        const response = await fetch('/favourites', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ name, address, status })
-        });
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    });
-  });
 });
 
 function confirmDelete(){

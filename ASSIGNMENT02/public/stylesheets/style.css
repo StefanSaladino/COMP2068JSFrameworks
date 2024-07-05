@@ -14,10 +14,11 @@ a {
   background: url('/images/restaurant-bg.jpg') no-repeat center center;
   background-size: cover;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0 2em;
+  
 }
 
 #GS-main{
@@ -38,19 +39,19 @@ a {
 }
 
 /* Ensure the button and form are above the overlay */
-#searchButton, #searchForm, #searchButtonContainer, #searchText, #searchGasStationsButton {
+#searchButton, #searchForm, #searchText, #searchGasStationsButton {
   position: relative;
   z-index: 2;
 }
 
-#searchButtonContainer{
-  width: 25%;
-}
 
 #searchText{
   color: white;
   width: 75%;
-  font-size: 1.2rem;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #missionStatement{
@@ -99,3 +100,16 @@ footer {
   border-top: solid 1px #492ef8;
   border-bottom: solid 2px #492ef8;
 }
+
+#searchText .btn-link {
+  color: white; /* Set the text color to white */
+  text-decoration: none; /* Remove underline */
+  font-size: 1.5rem;
+}
+
+#searchText .btn-link:hover{
+  transition: 0.3s ease-in-out;
+  text-decoration: underline;
+  font-size: 1.6rem;
+}
+
