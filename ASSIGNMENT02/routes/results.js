@@ -16,26 +16,40 @@ router.post('/results', ensureAuthenticated, async (req, res) => {
   const userId = req.user._id;
 
   try {
-    const response = await axios.post('http://localhost:3000/api/search', {
-      latitude,
-      longitude,
-      searchTerm
-    });
+    let response;
+    try {
+      // First try with the primary URL
+      response = await axios.post('https://placefinder.onrender.com/api/search', {
+        latitude,
+        longitude,
+        searchTerm
+      });
+    } catch (primaryError) {
+      console.error('Primary URL failed:', primaryError.message);
+  
+      // Fallback to secondary URL
+      response = await axios.post('http://localhost:3000/api/search', {
+        latitude,
+        longitude,
+        searchTerm
+      });
+    }
+  
     const apiResults = response.data;
-
+  
     // Get the logged in user's favourite restaurants
     const user = await User.findById(userId).populate('favourites');
     const favouriteAddresses = user.favourites.map(fav => fav.address);
-
+  
     // Map over the API results to add isFavourited property
     const restaurants = apiResults.map(restaurant => ({
       ...restaurant,
       isFavourited: favouriteAddresses.includes(restaurant.vicinity)
     }));
-
+  
     res.render('results', { title: "RESTAURANTS NEAR YOU", restaurants, isAdmin: req.user && req.user.role === 'admin' });
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching restaurant data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

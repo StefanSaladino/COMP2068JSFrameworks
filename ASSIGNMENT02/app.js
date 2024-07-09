@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv = require('dotenv');
 const hbs = require('hbs');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -14,6 +15,13 @@ var favouritesRouter = require('./routes/favourites'); // Import the favourites 
 var restrictedRouter = require('./routes/restricted');
 var bannedRouter = require('./routes/banned');
 var suspendedRouter = require('./routes/suspended');
+
+const corsOptions = {
+  origin: ['https://placefinder.onrender.com/', 'http://localhost:3000'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
 
 // db connectivity
 var mongoose = require('mongoose');
@@ -37,6 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors(corsOptions));
 
 // configure session object
 // initialize passport
@@ -97,6 +106,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 // Custom helper for comparison
 hbs.registerHelper('ifEquals', function(arg1, arg2, options) {

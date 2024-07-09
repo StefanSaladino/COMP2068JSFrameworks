@@ -174,4 +174,16 @@ footer {
   text-decoration: underline;
 }
 
+header {
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
+  color: white;
+  background-color: #450552;
+}
+
+header img {
+  height: 5vh;
+  width: 5vw;
+}
 
