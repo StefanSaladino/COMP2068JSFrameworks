@@ -33,7 +33,7 @@ router.post('/results', ensureAuthenticated, async (req, res) => {
       isFavourited: favouriteAddresses.includes(restaurant.vicinity)
     }));
 
-    res.render('results', { title: "RESTAURANTS NEAR YOU", restaurants });
+    res.render('results', { title: "RESTAURANTS NEAR YOU", restaurants, isAdmin: req.user && req.user.role === 'admin' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

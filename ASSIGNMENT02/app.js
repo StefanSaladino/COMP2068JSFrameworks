@@ -4,12 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv = require('dotenv');
+const hbs = require('hbs');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api'); // Import the API routes
 var resultsRouter = require('./routes/results'); // Import the results routes
 var favouritesRouter = require('./routes/favourites'); // Import the favourites routes
+var restrictedRouter = require('./routes/restricted');
+var bannedRouter = require('./routes/banned');
+var suspendedRouter = require('./routes/suspended');
 
 // db connectivity
 var mongoose = require('mongoose');
@@ -63,6 +67,9 @@ app.use('/users', usersRouter);
 app.use('/api', apiRouter); // Use the API routes
 app.use('/', resultsRouter); // Use the results routes
 app.use('/favourites', favouritesRouter); // Use the favourites routes
+app.use('/', restrictedRouter);
+app.use('/', bannedRouter);
+app.use('/', suspendedRouter);
 
 // connect to mongodb
 mongoose
@@ -89,6 +96,20 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// Custom helper for comparison
+hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
+  //debugging
+  console.log(`Comparing ${arg1} and ${arg2}`);
+  // Compare the two arguments
+  if (arg1 == arg2) {
+    // If true, render the block inside {{#ifEquals ...}}{{/ifEquals}}
+    return options.fn(this);
+  } else {
+    // If false, render the block inside {{else}}{{/ifEquals}}
+    return options.inverse(this);
+  }
 });
 
 

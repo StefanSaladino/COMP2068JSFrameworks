@@ -1,33 +1,40 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var passport = require('passport');
+var passport = require("passport");
 const User = require("../models/user");
+const { ensureAuthenticated, isBanned, ensureAdmin } = require('../middleware/auth.js');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Restaurant finder' });
+router.get("/", isBanned, function (req, res, next) {
+  res.render("index", { title: "Restaurant finder", isAdmin: req.user && req.user.role === "admin" });
 });
 
 //Get handler for login
-router.get('/login', (req, res, next) => {
+router.get("/login", (req, res, next) => {
   //retrieve messages from session object
   let messages = req.session.messages || []; //empty array if no messages
   //clear messages from session obj
   req.session.messages = [];
   //pass messages to view
-  res.render('login', { title: 'Login to your account', messages: messages });
+  res.render("login", {
+    title: "Login to your account",
+    messages: messages,
+  });
 });
 
 //post login > user clicks button
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/login",
-  failureMessage: "Invalid username/password",
-}));
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureMessage: "Invalid username/password",
+  })
+);
 
 //get register
-router.get('/register', (req, res, next) => {
-  res.render('register', { title: 'Create a new account' });
+router.get("/register", (req, res, next) => {
+  res.render("register", { title: "Create a new account" });
 });
 
 //post register
@@ -35,15 +42,16 @@ router.post("/register", (req, res, next) => {
   //create new user then redirect to projects
   User.register(
     //new user obj
-    new User ({ username: req.body.username }),
+    new User({ username: req.body.username }),
     req.body.password, //password as string to be encrypted
-    (err, newUser) => { //callback function for errors or redirection
+    (err, newUser) => {
+      //callback function for errors or redirection
       if (err) {
         console.log(err);
         return res.redirect("/register");
-      }
-      else {
-        req.login(newUser, (err) => { //login after reg to init session
+      } else {
+        req.login(newUser, (err) => {
+          //login after reg to init session
           res.redirect("/");
         });
       }
@@ -51,13 +59,10 @@ router.post("/register", (req, res, next) => {
   );
 });
 
-
-router.get('/logout', (req, res, next) => {
+router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     res.redirect("/");
   });
 });
-
-
 
 module.exports = router;

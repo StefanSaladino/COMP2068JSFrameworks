@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Restaurant = require('../models/restaurant');
 const User = require('../models/user');
-const { ensureAuthenticated } = require('../middleware/auth.js');
+const { ensureAuthenticated, isBanned } = require('../middleware/auth.js');
 
 // Route to handle saving a favourite restaurant
 router.post('/', ensureAuthenticated, async (req, res) => {
@@ -27,12 +27,12 @@ router.post('/', ensureAuthenticated, async (req, res) => {
 });
 
 // Route to display all favourite restaurants for the logged-in user
-router.get('/', ensureAuthenticated, async (req, res) => {
+router.get('/', ensureAuthenticated, isBanned, async (req, res) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId).populate('favourites');
     const favourites = user.favourites;
-    res.render('favourites/index', { favourites });
+    res.render('favourites/index', { favourites , isAdmin: req.user && req.user.role === 'admin'});
   } catch (error) {
     console.error('Error fetching favourites:', error);
     res.status(500).json({ error: 'Internal Server Error' });

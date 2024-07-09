@@ -1,0 +1,62 @@
+  <h1>User List</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Status</th>
+        <th>Role</th>
+        <th>Remove</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each dataset}}
+      <tr>
+        <td>{{this.username}}</td>
+
+        <td>{{this.status}}</td>
+
+        <td>{{this.role}}</td>
+        
+        <td>
+        {{#ifEquals this.username ../user.username}}
+          <span>You cannot delete yourself!</span>
+        {{else}}
+          {{#ifEquals this.role 'admin'}}
+          <span>You cannot delete an admin</span>
+          {{else}}
+          <a href="/users/delete/{{this._id}}" class="btn btn-danger btn-sm" onClick="return confirmDelete()">DELETE</a>
+          {{/ifEquals}}
+        {{/ifEquals}}
+        </td>
+        
+        <td>
+        {{#ifEquals this.role 'admin'}}
+            {{#ifEquals this.username ../user.username}}
+            <span>No actions to be taken on yourself!</span>
+            {{else}}
+            <a href="users/demote/{{this._id}}" class="btn btn-danger btn-sm">REMOVE ADMIN</a>
+            {{/ifEquals}}
+        {{else}}
+        {{#ifEquals this.status 'good'}}
+        <a href="users/promote/{{this._id}}" class="btn btn-success btn-sm">MAKE ADMIN</a>
+        {{/ifEquals}}
+            {{#ifEquals this.status 'good'}}
+            <a href="users/suspend/{{this._id}}" class="btn btn-warning btn-sm">SUSPEND</a>
+            <a href="users/ban/{{this._id}}" class="btn btn-danger btn-sm">BAN</a>
+            {{/ifEquals}}
+            {{#ifEquals this.status 'suspended'}}
+            <a href="users/reinstate/{{this._id}}" class="btn btn-success btn-sm">REINSTATE</a>
+            <a href="users/ban/{{this._id}}" class="btn btn-danger btn-sm">BAN</a>
+            {{/ifEquals}}
+            {{#ifEquals this.status 'banned'}}
+            <a href="users/reinstate/{{this._id}}" class="btn btn-success btn-sm">REINSTATE</a>
+            {{/ifEquals}}
+            
+        {{/ifEquals}}
+        </td>
+
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
