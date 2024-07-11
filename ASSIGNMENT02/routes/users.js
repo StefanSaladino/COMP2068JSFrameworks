@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-const { ensureAuthenticated, ensureAdmin } = require('../middleware/auth.js');
+const { ensureAuthenticated, ensureAdmin } = require('../utilities/auth.js');
 
 /* GET users listing. */
 // Route to display all favourite restaurants for the logged-in user

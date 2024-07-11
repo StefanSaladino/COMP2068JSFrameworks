@@ -6,6 +6,7 @@ var logger = require('morgan');
 var dotenv = require('dotenv');
 const hbs = require('hbs');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,6 +17,7 @@ var restrictedRouter = require('./routes/restricted');
 var bannedRouter = require('./routes/banned');
 var suspendedRouter = require('./routes/suspended');
 
+// Enabling cross origin resource sharing so the API can be called at the host origin
 const corsOptions = {
   origin: ['https://placefinder.onrender.com/', 'http://localhost:3000'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -23,10 +25,10 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
-// db connectivity
+// DB connectivity
 var mongoose = require('mongoose');
-var globals = require("./configs/globals"); // global vars
-// import passport modules
+var globals = require("./configs/globals"); // Global vars
+// Import passport modules
 var passport = require("passport");
 var session = require("express-session");
 var User = require("./models/user");
@@ -36,7 +38,7 @@ dotenv.config();
 
 var app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -47,21 +49,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors(corsOptions));
 
-// configure session object
-// initialize passport
-
+// Configure session object
+// Initialize passport
 app.use(session({
-  secret: "placeFinder", // value used to sign session id cookie
-  resave: false, // save session even if not modified
-  saveUninitialized: false // save session even if not used
+  secret: "placeFinder", // Value used to sign session ID cookie
+  resave: false, // Save session even if not modified
+  saveUninitialized: false // Save session even if not used
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// initialize passport strategy
+// Initialize passport strategy
 passport.use(User.createStrategy());
-// configure passport to serialize and deserialize user data
+// Configure passport to serialize and deserialize user data
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -80,7 +81,7 @@ app.use('/', restrictedRouter);
 app.use('/', bannedRouter);
 app.use('/', suspendedRouter);
 
-// connect to mongodb
+// Connect to MongoDB
 mongoose
 .connect(globals.ConnectionString.MongoDB)
 .then(() => {
@@ -90,27 +91,26 @@ mongoose
   console.log(err);
 });
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   console.log(`404 Not Found: ${req.originalUrl}`); // Log the URL that caused the error
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // Render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 
-
 // Custom helper for comparison
 hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
-  //debugging
+  // Debugging
   console.log(`Comparing ${arg1} and ${arg2}`);
   // Compare the two arguments
   if (arg1 == arg2) {
@@ -121,7 +121,5 @@ hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
     return options.inverse(this);
   }
 });
-
-
 
 module.exports = app;

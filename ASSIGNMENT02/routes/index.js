@@ -2,27 +2,26 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 const User = require("../models/user");
-const { ensureAuthenticated, isBanned, ensureAdmin } = require('../middleware/auth.js');
+const jwt = require("jsonwebtoken");
+const { ensureAuthenticated, isBanned, ensureAdmin } = require('../utilities/auth.js');
+const { sendVerificationEmail } = require('../utilities/tokensender');
 
-/* GET home page. */
+// GET home page
 router.get("/", isBanned, function (req, res, next) {
   res.render("index", { title: "Restaurant finder", isAdmin: req.user && req.user.role === "admin" });
 });
 
-//Get handler for login
+// GET login
 router.get("/login", (req, res, next) => {
-  //retrieve messages from session object
-  let messages = req.session.messages || []; //empty array if no messages
-  //clear messages from session obj
+  let messages = req.session.messages || []; 
   req.session.messages = [];
-  //pass messages to view
   res.render("login", {
     title: "Login to your account",
     messages: messages,
   });
 });
 
-//post login > user clicks button
+// POST login
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -32,33 +31,63 @@ router.post(
   })
 );
 
-//get register
+// GET register
 router.get("/register", (req, res, next) => {
   res.render("register", { title: "Create a new account" });
 });
 
-//post register
+// POST register
 router.post("/register", (req, res, next) => {
-  //create new user then redirect to projects
-  User.register(
-    //new user obj
-    new User({ username: req.body.username }),
-    req.body.password, //password as string to be encrypted
-    (err, newUser) => {
-      //callback function for errors or redirection
-      if (err) {
-        console.log(err);
-        return res.redirect("/register");
-      } else {
-        req.login(newUser, (err) => {
-          //login after reg to init session
-          res.redirect("/");
-        });
-      }
+  const { username, password } = req.body;
+
+  const newUser = new User({ username, isVerified: false });
+
+  User.register(newUser, password, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.redirect("/register");
     }
-  );
+
+    sendVerificationEmail(username, user._id);
+
+    res.send("Registration successful! Please check your email to verify your account.");
+  });
 });
 
+
+// GET verify email
+router.get('/verify/:token', async (req, res) => {
+  const { token } = req.params;
+  
+try {
+  // Verify the JWT token
+  const decoded = jwt.verify(token, 'ourSecretKey');
+  console.log('Decoded token:', decoded);
+
+  // Find the user by the ID encoded in the token
+  const user = await User.findById(decoded.id);
+  console.log('User found in database:', user);
+
+  // Check if the user was found
+  // This was added for debugging purposes, as email verification took some time to implement
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+
+  // Update the user's verification status
+  user.isVerified = true;
+  await user.save();
+  
+  // Redirect to the homepage after successful verification
+  res.redirect("/");
+} catch (err) {
+  console.error('Error verifying token:', err);
+  // Handle verification failure due to invalid or expired token
+  res.status(400).send("Email verification failed, link is invalid or expired");
+}
+});
+
+// GET logout
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     res.redirect("/");

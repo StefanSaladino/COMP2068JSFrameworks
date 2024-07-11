@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 const User = require('../models/user');
 const Restaurant = require('../models/restaurant'); // Import the Restaurant model
-const { ensureAuthenticated } = require('../middleware/auth.js');
+const { ensureAuthenticated } = require('../utilities/auth.js');
 
 router.get('/results', (req, res) => {
   res.render('results', { title: "RESTAURANTS NEAR YOU", restaurants: req.body.restaurants || [] });

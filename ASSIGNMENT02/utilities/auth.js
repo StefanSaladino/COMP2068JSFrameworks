@@ -1,5 +1,5 @@
 function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user.isVerified) {
       return next();
     }
     res.redirect('/login');

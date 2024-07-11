@@ -24,6 +24,10 @@ const dataSchemaObj = {
     enum: ["good", "banned", "suspended"],
     default: "good",
   },
+  isVerified: {
+    type: Boolean,
+    default: false
+  }
 };
 const mongooseSchema = new mongoose.Schema(dataSchemaObj);
 // Use passport-local-mongoose to indicate this is a special authentication model

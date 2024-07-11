@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Restaurant = require('../models/restaurant');
 const User = require('../models/user');
-const { ensureAuthenticated, isBanned } = require('../middleware/auth.js');
+const { ensureAuthenticated, isBanned } = require('../utilities/auth.js');
 
 // Route to handle saving a favourite restaurant
 router.post('/', ensureAuthenticated, async (req, res) => {
