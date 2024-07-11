@@ -22,6 +22,31 @@ router.get('/', ensureAdmin, async (req, res, next) => {
   }
 });
 
+router.get('/details/:id', ensureAdmin, async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    let user = await User.findById(userId).populate('favourites').exec();
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.render("users/details", {
+      title: `${user.username}'s Account Details`,
+      user: user,
+      lastSignIn: user.lastSignIn,
+      apiCalls: user.apiCalls,
+      favourites: user.favourites.length,
+      role: user.role,
+      status: user.status,
+      verifiedAccount: user.isVerified,
+    });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 // Route to delete a user
 router.get('/delete/:_id', ensureAdmin, async (req, res, next) => {
   try {
@@ -38,7 +63,7 @@ router.get('/delete/:_id', ensureAdmin, async (req, res, next) => {
 router.get('/demote/:_id', ensureAdmin, async (req, res, next) => {
   try {
     const userId = req.params._id;
-    await User.findByIdAndUpdate(userId, { role: 'user' }); // Assuming 'user' is the default role
+    await User.findByIdAndUpdate(userId, { role: 'user' });
     res.redirect('/users');
   } catch (error) {
     console.error('Error demoting user:', error);

@@ -25,11 +25,22 @@ router.get("/login", (req, res, next) => {
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/",
     failureRedirect: "/login",
     failureMessage: "Invalid username/password",
-  })
+  }),
+  async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user._id);
+      user.lastSignIn = new Date();
+      await user.save();
+      res.redirect("/");
+    } catch (err) {
+      console.error("Error updating last sign-in:", err);
+      res.redirect("/login");
+    }
+  }
 );
+
 
 // GET register
 router.get("/register", (req, res, next) => {

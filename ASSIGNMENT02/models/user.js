@@ -9,6 +9,12 @@ const dataSchemaObj = {
     type: String,
     required: true,
   },
+  firstName: {
+    type: String,
+  },
+  lastName: {
+    type: String,
+  },
   password: {
     type: String,
     required: false,
@@ -27,7 +33,15 @@ const dataSchemaObj = {
   isVerified: {
     type: Boolean,
     default: false
-  }
+  },
+  lastSignIn: {
+    type: Date,
+    default: Date.now,
+  },
+  apiCalls: {
+    type: Number,
+    default: 0,
+  },
 };
 const mongooseSchema = new mongoose.Schema(dataSchemaObj);
 // Use passport-local-mongoose to indicate this is a special authentication model
