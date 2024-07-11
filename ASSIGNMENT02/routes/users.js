@@ -23,23 +23,26 @@ router.get('/', ensureAdmin, async (req, res, next) => {
 });
 
 router.get('/details/:id', ensureAdmin, async (req, res, next) => {
-  const userId = req.params.id;
+  const renderedUserId = req.params.id;
+  const user = await User.findById(req.user._id);
 
   try {
-    let user = await User.findById(userId).populate('favourites').exec();
-    if (!user) {
+    let renderedUser = await User.findById(renderedUserId).populate('favourites').exec();
+    if (!renderedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     res.render("users/details", {
-      title: `${user.username}'s Account Details`,
+      title: `${renderedUser.username}'s Account Details`,
+      renderedUser: renderedUser,
+      lastSignIn: renderedUser.lastSignIn,
+      apiCalls: renderedUser.apiCalls,
+      favourites: renderedUser.favourites.length,
+      role: renderedUser.role,
+      status: renderedUser.status,
+      verifiedAccount: renderedUser.isVerified,
       user: user,
-      lastSignIn: user.lastSignIn,
-      apiCalls: user.apiCalls,
-      favourites: user.favourites.length,
-      role: user.role,
-      status: user.status,
-      verifiedAccount: user.isVerified,
+      isAdmin: req.user && req.user.role === 'admin',
     });
   } catch (error) {
     console.error('Error fetching user:', error);

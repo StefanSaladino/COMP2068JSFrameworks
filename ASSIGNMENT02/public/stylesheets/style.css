@@ -1,5 +1,4 @@
 body {
-  
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -7,6 +6,9 @@ a {
   color: #00B7FF;
 }
 
+h1, table {
+  margin: 0 0.5em;
+}
 
 #index-main, #GS-main {
   position: relative;
@@ -18,7 +20,6 @@ a {
   align-items: center;
   justify-content: center;
   padding: 0 2em;
-  
 }
 
 #GS-main{
@@ -199,29 +200,38 @@ header img {
 
 .card {
   margin: 2em;
-  padding: 1em;
   width: 40vw;
-  background-color: #fff; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out; 
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #e0e0e0;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .card-header {
-  background-color: #f0f0f0; 
-  padding: 0.5em 1em;
-  border-bottom: 1px solid #ddd; 
+  background-color: #007bff;
+  color: white;
+  padding: 1em;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .card-body {
-  padding: 1em;
+  padding: 1.5em;
 }
 
 .card-title {
   font-weight: bold;
   margin-bottom: 0.5em;
+  color: #333;
 }
 
 .card-text {
   margin-bottom: 1em;
+  color: #555;
 }
