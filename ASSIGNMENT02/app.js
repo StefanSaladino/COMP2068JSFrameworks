@@ -7,6 +7,7 @@ var dotenv = require('dotenv');
 const hbs = require('hbs');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { format } = require('date-fns'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -120,6 +121,11 @@ hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
     // If false, render the block inside {{else}}{{/ifEquals}}
     return options.inverse(this);
   }
+});
+
+// Custom helper to format date and time
+hbs.registerHelper("formatDateTime", (dateTime) => {
+  return format(new Date(dateTime), 'MMMM dd, yyyy @ hh:mm a');
 });
 
 module.exports = app;

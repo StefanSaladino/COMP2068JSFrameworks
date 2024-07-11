@@ -2,7 +2,7 @@
 
 <section class="user-cards">
 <div class="card">
-  <h5 class="card-header">User Info</h5>
+  <h5 class="card-header bg-dark">User Info</h5>
   <div class="card-body">
     <h5 class="card-title">Username</h5>
     <p class="card-text">{{renderedUser.username}}</p>
@@ -14,10 +14,10 @@
 </div>
 
 <div class="card">
-  <h5 class="card-header">Insights</h5>
+  <h5 class="card-header bg-dark">Insights</h5>
   <div class="card-body">
     <h5 class="card-title">Last Sign In Time</h5>
-    <p class="card-text">{{lastSignIn}}</p>
+    <p class="card-text">{{formatDateTime lastSignIn}}</p>
     <h5 class="card-title">Number of API Calls</h5>
     <p class="card-text">{{apiCalls}}</p>
     <h5 class="card-title">Number of Favourited Spots</h5>

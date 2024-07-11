@@ -208,14 +208,17 @@ header img {
   border: 1px solid #e0e0e0;
 }
 
+.card > h5{
+  color: white;
+  font-size: 1.5rem;
+}
+
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .card-header {
-  background-color: #007bff;
-  color: white;
   padding: 1em;
   border-radius: 12px 12px 0 0;
   border-bottom: 1px solid #ddd;
@@ -228,7 +231,9 @@ header img {
 .card-title {
   font-weight: bold;
   margin-bottom: 0.5em;
-  color: #333;
+  color: #fff;
+  background-color: #000;
+  padding: 4px 0;
 }
 
 .card-text {
