@@ -123,9 +123,11 @@ hbs.registerHelper('ifEquals', function(arg1, arg2, options) {
   }
 });
 
-// Custom helper to format date and time
-hbs.registerHelper("formatDateTime", (dateTime) => {
-  return format(new Date(dateTime), 'MMMM dd, yyyy @ hh:mm a');
+// Custom helper for date formatting in EST
+hbs.registerHelper('formatDateEST', function(date) {
+  let estDate = new Date(date.toLocaleString("en-US", { timeZone: "America/New_York" }));
+  let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+  return estDate.toLocaleString("en-US", options);
 });
 
 module.exports = app;
