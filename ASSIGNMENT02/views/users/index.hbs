@@ -1,64 +1,60 @@
-  <h1>User List</h1>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Status</th>
-        <th>Role</th>
-        <th>Remove</th>
-        <th>Actions</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each dataset}}
-      <tr>
-        <td>{{this.username}}</td>
+    <h1>User List</h1>
+    <input type="text" id="search-bar" placeholder="Search users...">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Remove</th>
+                <th>Actions</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody id="user-list">
+            {{#each dataset}}
+            <tr class="user-item">
+                <td>{{this.username}}</td>
+                <td>{{this.status}}</td>
+                <td>{{this.role}}</td>
+                <td>
+                    {{#ifEquals this.username ../user.username}}
+                        <span>You cannot delete yourself!</span>
+                    {{else}}
+                        {{#ifEquals this.role 'admin'}}
+                            <span>You cannot delete an admin</span>
+                        {{else}}
+                            <a href="/users/delete/{{this.encryptedId}}" class="btn btn-danger btn-sm" onClick="return confirmDelete()">DELETE</a>
+                        {{/ifEquals}}
+                    {{/ifEquals}}
+                </td>
+                <td>
+                    {{#ifEquals this.role 'admin'}}
+                        {{#ifEquals this.username ../user.username}}
+                            <span>No actions to be taken on yourself!</span>
+                        {{else}}
+                            <a href="users/demote/{{this.encryptedId}}" class="btn btn-danger btn-sm">REMOVE ADMIN</a>
+                        {{/ifEquals}}
+                    {{else}}
+                        {{#ifEquals this.status 'good'}}
+                            <a href="users/promote/{{this.encryptedId}}" class="btn btn-success btn-sm">MAKE ADMIN</a>
+                            <a href="users/suspend/{{this.encryptedId}}" class="btn btn-warning btn-sm">SUSPEND</a>
+                            <a href="users/ban/{{this.encryptedId}}" class="btn btn-danger btn-sm">BAN</a>
+                        {{/ifEquals}}
+                        {{#ifEquals this.status 'suspended'}}
+                            <a href="users/reinstate/{{this.encryptedId}}" class="btn btn-success btn-sm">REINSTATE</a>
+                            <a href="users/ban/{{this.encryptedId}}" class="btn btn-danger btn-sm">BAN</a>
+                        {{/ifEquals}}
+                        {{#ifEquals this.status 'banned'}}
+                            <a href="users/reinstate/{{this.encryptedId}}" class="btn btn-success btn-sm">REINSTATE</a>
+                        {{/ifEquals}}
+                    {{/ifEquals}}
+                </td>
+                <td>
+                    <a href="users/details/{{this.encryptedId}}" class="btn btn-primary btn-sm">ACCOUNT DETAILS</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 
-        <td>{{this.status}}</td>
-
-        <td>{{this.role}}</td>
-        
-        <td>
-        {{#ifEquals this.username ../user.username}}
-          <span>You cannot delete yourself!</span>
-        {{else}}
-          {{#ifEquals this.role 'admin'}}
-          <span>You cannot delete an admin</span>
-          {{else}}
-          <a href="/users/delete/{{this.encryptedId}}" class="btn btn-danger btn-sm" onClick="return confirmDelete()">DELETE</a>
-          {{/ifEquals}}
-        {{/ifEquals}}
-        </td>
-        
-        <td>
-        {{#ifEquals this.role 'admin'}}
-            {{#ifEquals this.username ../user.username}}
-            <span>No actions to be taken on yourself!</span>
-            {{else}}
-            <a href="users/demote/{{this.encryptedId}}" class="btn btn-danger btn-sm">REMOVE ADMIN</a>
-            {{/ifEquals}}
-        {{else}}
-        {{#ifEquals this.status 'good'}}
-        <a href="users/promote/{{this.encryptedId}}" class="btn btn-success btn-sm">MAKE ADMIN</a>
-        {{/ifEquals}}
-            {{#ifEquals this.status 'good'}}
-            <a href="users/suspend/{{this.encryptedId}}" class="btn btn-warning btn-sm">SUSPEND</a>
-            <a href="users/ban/{{this.encryptedId}}" class="btn btn-danger btn-sm">BAN</a>
-            {{/ifEquals}}
-            {{#ifEquals this.status 'suspended'}}
-            <a href="users/reinstate/{{this.encryptedId}}" class="btn btn-success btn-sm">REINSTATE</a>
-            <a href="users/ban/{{this.encryptedId}}" class="btn btn-danger btn-sm">BAN</a>
-            {{/ifEquals}}
-            {{#ifEquals this.status 'banned'}}
-            <a href="users/reinstate/{{this.encryptedId}}" class="btn btn-success btn-sm">REINSTATE</a>
-            {{/ifEquals}}
-        {{/ifEquals}}
-        </td>
-        <td>
-          <a href="users/details/{{this.encryptedId}}" class="btn btn-primary btn-sm">ACCOUNT DETAILS</button>
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
