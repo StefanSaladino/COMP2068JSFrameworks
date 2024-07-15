@@ -5,13 +5,13 @@ const nodemailer = require('nodemailer');
 const { ensureAuthenticated, isBanned } = require('../utilities/auth.js');
 
 router.get('/', ensureAuthenticated, isBanned, (req, res) => {
-    res.render('contact', { title: 'Contact Us' });
+    res.render('contact', { title: 'Contact Us', isAdmin: req.user && req.user.role === 'admin' });
   });
 
 // POST /contact
-router.post('/', async (req, res) => {
+router.post('/', ensureAuthenticated, async (req, res) => {
     const { subject, message } = req.body;
-    const userEmail = req.user.username; // Assumes req.user is populated with the logged-in user's info
+    const userEmail = req.user.username;
 
     // Configure the SMTP transporter
     let transporter = nodemailer.createTransport({
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
     let mailOptionsToUser = {
         from: process.env.EMAIL_ADDRESS,
         to: userEmail,
-        subject: 'Thank you for your query',
+        subject: 'Thanks for reaching out!',
         text: 'Thank you for your query, someone will answer you within the hour.'
     };
 

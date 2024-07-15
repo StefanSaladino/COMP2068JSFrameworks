@@ -245,3 +245,7 @@ header img {
   margin: 1em;
   width: 33vw;
 }
+
+#contact-container {
+  padding: 0 0 2em 0;
+}
