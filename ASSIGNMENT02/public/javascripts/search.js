@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    // Search for users
     $('#search-bar').on('input', function() {
         let query = $(this).val().toLowerCase();
         
@@ -11,4 +12,21 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Search for favourite restaurants
+    $('#favourite-search-bar').on('input', function() {
+        let query = $(this).val().toLowerCase();
+        
+        $('.favourite-item').each(function() {
+            let restaurantName = $(this).find('td:first').text().toLowerCase();
+            if (restaurantName.includes(query)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
 });
+
+
+

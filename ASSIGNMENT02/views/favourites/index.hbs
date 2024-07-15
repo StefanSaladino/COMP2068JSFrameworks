@@ -1,4 +1,5 @@
   <h1>Your Favourite Spots!</h1>
+  <input type="text" id="favourite-search-bar" placeholder="Search favourites...">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -10,7 +11,7 @@
     </thead>
     <tbody>
       {{#each favourites}}
-      <tr>
+      <tr class="favourite-item">
         <td>{{this.name}}</td>
         <td>{{this.address}}</td>
         <td>{{this.status}}</td>

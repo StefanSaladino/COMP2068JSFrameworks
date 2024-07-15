@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv = require('dotenv');
 const hbs = require('hbs');
+const flash = require('connect-flash');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { format } = require('date-fns'); 
@@ -17,6 +18,7 @@ var favouritesRouter = require('./routes/favourites'); // Import the favourites 
 var restrictedRouter = require('./routes/restricted');
 var bannedRouter = require('./routes/banned');
 var suspendedRouter = require('./routes/suspended');
+var contactRouter = require('./routes/contact');
 
 // Enabling cross origin resource sharing so the API can be called at the host origin
 const corsOptions = {
@@ -60,6 +62,15 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+// Set up connect-flash
+app.use(flash());
+
+// Middleware to pass flash messages to views
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 // Initialize passport strategy
 passport.use(User.createStrategy());
@@ -81,6 +92,7 @@ app.use('/favourites', favouritesRouter); // Use the favourites routes
 app.use('/', restrictedRouter);
 app.use('/', bannedRouter);
 app.use('/', suspendedRouter);
+app.use('/contact', contactRouter);
 
 // Connect to MongoDB
 mongoose
