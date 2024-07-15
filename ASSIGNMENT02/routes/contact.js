@@ -22,8 +22,8 @@ router.post('/', async (req, res) => {
         }
     });
 
-    // Email options
-    let mailOptions = {
+    // Email options for sending to support
+    let mailOptionsToSupport = {
         from: process.env.EMAIL_ADDRESS, // Email is sent from the configured Outlook account
         replyTo: userEmail, // Replies will be directed to the user's email address
         to: process.env.EMAIL_ADDRESS,
@@ -31,9 +31,21 @@ router.post('/', async (req, res) => {
         text: `Email from: ${userEmail}\n\nContent:\n${message}`
     };
 
+    // Email options for auto-response
+    let mailOptionsToUser = {
+        from: process.env.EMAIL_ADDRESS,
+        to: userEmail,
+        subject: 'Thank you for your query',
+        text: 'Thank you for your query, someone will answer you within the hour.'
+    };
+
     try {
-        // Send email
-        await transporter.sendMail(mailOptions);
+        // Send email to support
+        await transporter.sendMail(mailOptionsToSupport);
+
+        // Send auto-response email to the user
+        await transporter.sendMail(mailOptionsToUser);
+
         // Send success message and redirect back to contact page
         req.flash('success', 'Email sent successfully!');
         res.redirect('/contact');
