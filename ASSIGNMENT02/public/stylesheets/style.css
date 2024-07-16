@@ -249,3 +249,8 @@ header img {
 #contact-container {
   padding: 0 0 2em 0;
 }
+
+#pass-reset {
+  padding: 1em;
+  margin: 1em;
+}

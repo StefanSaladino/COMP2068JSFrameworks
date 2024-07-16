@@ -32,7 +32,7 @@ router.get('/', ensureAuthenticated, isBanned, async (req, res) => {
     const userId = req.user._id;
     const user = await User.findById(userId).populate('favourites');
     const favourites = user.favourites;
-    res.render('favourites/index', { favourites , isAdmin: req.user && req.user.role === 'admin'});
+    res.render('favourites/index', { title: 'Favourites', favourites , isAdmin: req.user && req.user.role === 'admin'});
   } catch (error) {
     console.error('Error fetching favourites:', error);
     res.status(500).json({ error: 'Internal Server Error' });
