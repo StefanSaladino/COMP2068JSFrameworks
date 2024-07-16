@@ -42,6 +42,12 @@ const dataSchemaObj = {
     type: Number,
     default: 0,
   },
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordExpires: {
+    type: Date,
+  },
 };
 const mongooseSchema = new mongoose.Schema(dataSchemaObj);
 // Use passport-local-mongoose to indicate this is a special authentication model

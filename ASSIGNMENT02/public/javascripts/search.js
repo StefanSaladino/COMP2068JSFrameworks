@@ -13,8 +13,8 @@ $(document).ready(function() {
         });
     });
 
-    // Search for favourite restaurants
-    $('#favourite-search-bar').on('input', function() {
+// Search for favourite restaurants
+$('#favourite-search-bar').on('input', function() {
         let query = $(this).val().toLowerCase();
         
         $('.favourite-item').each(function() {
