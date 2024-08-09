@@ -28,7 +28,7 @@ function sendVerificationEmail(userEmail, userId) {
     from: process.env.EMAIL_ADDRESS,
     to: userEmail, // Send to the user's email address
     subject: 'Email Verification',
-    text: `Hi! Please follow the link to verify your email: https://placefinder.onrender.com/verify/${token} Thanks`
+    text: `Hi! Please follow the link to verify your email: https://placefinder.onrender.com/verify/${token} Thanks.`
   };
 
   // Send the email

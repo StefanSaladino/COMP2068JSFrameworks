@@ -6,7 +6,12 @@ require("dotenv").config();
 const globals = {
     ConnectionString: {
         MongoDB: process.env.CONNECTION_STRING_MONGODB,
-    }
+    },
+    "github":{
+            "clientID": "Ov23lirLbSQE7yoVk7iT",
+            "clientSecret": process.env.GH_CLIENT_SECRET,
+            "callbackUrl": "http://placefinder.onrender.com/github/callback"
+        }  
 }
 
 //export config obj

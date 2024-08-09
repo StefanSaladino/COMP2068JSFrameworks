@@ -65,63 +65,39 @@ router.get('/delete/:encryptedId', ensureAdmin, async (req, res, next) => {
   }
 });
 
-// Route to demote a user (remove admin role)
-router.get('/demote/:encryptedId', ensureAdmin, async (req, res, next) => {
+// Route to handle admin actions
+router.post('/action/:encryptedId', ensureAdmin, async (req, res) => {
   try {
     const userId = decrypt(req.params.encryptedId);
-    await User.findByIdAndUpdate(userId, { role: 'user' });
-    res.redirect('/users');
-  } catch (error) {
-    console.error('Error demoting user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+    const action = req.body.action; // 'promote', 'demote', 'ban', 'suspend', 'reinstate'
 
-// Route to promote a user (make admin)
-router.get('/promote/:encryptedId', ensureAdmin, async (req, res, next) => {
-  try {
-    const userId = decrypt(req.params.encryptedId);
-    await User.findByIdAndUpdate(userId, { role: 'admin' });
-    res.redirect('/users');
-  } catch (error) {
-    console.error('Error promoting user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Route to ban a user
-router.get('/ban/:encryptedId', ensureAdmin, async (req, res, next) => {
-  try {
-    const userId = decrypt(req.params.encryptedId);
-    await User.findByIdAndUpdate(userId, { status: 'banned' });
-    res.redirect('/users');
-  } catch (error) {
-    console.error('Error banning user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Route to suspend a user
-router.get('/suspend/:encryptedId', ensureAdmin, async (req, res, next) => {
-  try {
-    const userId = decrypt(req.params.encryptedId);
-    await User.findByIdAndUpdate(userId, { status: 'suspended' });
-    res.redirect('/users');
-  } catch (error) {
-    console.error('Error suspending user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-// Route to reinstate a user
-router.get('/reinstate/:encryptedId', ensureAdmin, async (req, res, next) => {
-  try {
-    const userId = decrypt(req.params.encryptedId);
-    await User.findByIdAndUpdate(userId, { status: 'good' });
-    res.redirect('/users');
-  } catch (error) {
-    console.error('Error reinstating user:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    switch (action) {
+      case 'promote':
+        await User.findByIdAndUpdate(userId, { role: 'admin' });
+        res.json({ message: 'User promoted to admin' });
+        break;
+      case 'demote':
+        await User.findByIdAndUpdate(userId, { role: 'user' });
+        res.json({ message: 'Admin demoted to user' });
+        break;
+      case 'ban':
+        await User.findByIdAndUpdate(userId, { status: 'banned' });
+        res.json({ message: 'User banned' });
+        break;
+      case 'suspend':
+        await User.findByIdAndUpdate(userId, { status: 'suspended' });
+        res.json({ message: 'User suspended' });
+        break;
+      case 'reinstate':
+        await User.findByIdAndUpdate(userId, { status: 'good' });
+        res.json({ message: 'User reinstated' });
+        break;
+      default:
+        res.status(400).json({ message: 'Invalid action' });
+    }
+  } catch (err) {
+    console.error('Error performing admin action:', err);
+    res.status(500).json({ message: 'Error performing admin action' });
   }
 });
 

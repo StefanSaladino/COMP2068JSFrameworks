@@ -8,7 +8,10 @@ const hbs = require('hbs');
 const flash = require('connect-flash');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { format } = require('date-fns'); 
+const { format } = require('date-fns');
+const { config } = require('dotenv');
+var globals = require("./configs/globals");
+var githubStrategy =  require('passport-github2').Strategy;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -78,9 +81,33 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//github oauth strategy
+passport.use(new githubStrategy({
+  clientID: globals.github.clientID,
+  clientSecret: globals.github.clientSecret,
+  callbackURL: globals.github.callbackURL,
+},
+  async (accessToken, refreshToken, profile, done) => {
+    const user = await User.findOne({ oauthId: profile.id });
+    if(user) {
+      return done(null, user);
+    }
+    else{
+      const newUser = new User({
+        username: profile.username,
+        oauthId: profile.id,
+        oauthProvider: "Github",
+        created: Date.now()
+      });
+      const savedUser = await newUser.save();
+      return done(null, savedUser);
+    }
+  }
+))
+
 app.use(function(req, res, next) {
   res.locals.isAuthenticated = req.isAuthenticated();
-  res.locals.user = req.user; // Assuming you use Passport and `req.user` is available
+  res.locals.user = req.user;
   next();
 });
 
@@ -112,7 +139,6 @@ app.use(function(req, res, next) {
 
 // Error handler
 app.use(function(err, req, res, next) {
-  // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

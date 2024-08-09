@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const result = await response.json();
         if (result.success) {
           alert(`${result.name} added to favourites`);
-          window.location.href = '/favourites';
         } else {
           alert('Failed to add to favourites');
         }
@@ -74,6 +73,42 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-function confirmDelete(){
-  return confirm("Do you want to delete this item?")
+function confirmDelete() {
+  if (confirm("Do you want to delete this item?")) {
+    alert("Item successfully deleted!");
+    return true;
+  }
+  return false;
+}
+
+async function handleAdminAction(action, encryptedId) {
+  const adminPassword = prompt('Please enter the admin password:');
+
+  if (!adminPassword) {
+    alert('Action cancelled. No password provided.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/users/action/${encryptedId}`, {  // Include `encryptedId` in the URL
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ action, adminPassword }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert(result.message);
+      // Reload the user list
+      location.reload();
+    } else {
+      alert(`Error: ${result.message}`);
+    }
+  } catch (error) {
+    console.error('Error performing admin action:', error);
+    alert('An error occurred while performing the action. Please try again.');
+  }
 }

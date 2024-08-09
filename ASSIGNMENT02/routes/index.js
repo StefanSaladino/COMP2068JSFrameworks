@@ -115,6 +115,14 @@ router.get("/logout", (req, res, next) => {
   });
 });
 
+//get handler for github
+router.get("/github", passport.authenticate("github", {scope: ["user.email"]}));
+
+router.get("github/callback",
+  passport.authenticate("github", { failureRedirect: "/login"}),
+  (req, res, next) => { res.redirect("/")}
+)
+
 // Route to render forgot password page
 router.get("/forgot-password", (req, res) => {
   res.render("forgot-password", { title: "Forgot Password" });

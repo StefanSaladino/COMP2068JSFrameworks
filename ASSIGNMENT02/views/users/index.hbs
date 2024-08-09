@@ -33,20 +33,20 @@
                         {{#ifEquals this.username ../user.username}}
                             <span>No actions to be taken on yourself!</span>
                         {{else}}
-                            <a href="users/demote/{{this.encryptedId}}" class="btn btn-danger btn-sm">REMOVE ADMIN</a>
+                            <button class="user-pg-btn btn btn-danger btn-sm" onclick="handleAdminAction('demote', '{{this.encryptedId}}')">REMOVE ADMIN</a>
                         {{/ifEquals}}
                     {{else}}
                         {{#ifEquals this.status 'good'}}
-                            <a href="users/promote/{{this.encryptedId}}" class="btn btn-success btn-sm">MAKE ADMIN</a>
-                            <a href="users/suspend/{{this.encryptedId}}" class="btn btn-warning btn-sm">SUSPEND</a>
-                            <a href="users/ban/{{this.encryptedId}}" class="btn btn-danger btn-sm">BAN</a>
+                            <button class="user-pg-btn btn btn-success btn-sm" onclick="handleAdminAction('promote', '{{this.encryptedId}}')">MAKE ADMIN</a>
+                            <button class="user-pg-btn btn btn-warning btn-sm" onclick="handleAdminAction('suspend', '{{this.encryptedId}}')">SUSPEND</a>
+                            <button class="user-pg-btn btn btn-danger btn-sm" onclick="handleAdminAction('ban', '{{this.encryptedId}}')">BAN</a>
                         {{/ifEquals}}
                         {{#ifEquals this.status 'suspended'}}
-                            <a href="users/reinstate/{{this.encryptedId}}" class="btn btn-success btn-sm">REINSTATE</a>
-                            <a href="users/ban/{{this.encryptedId}}" class="btn btn-danger btn-sm">BAN</a>
+                            <button class="user-pg-btn btn btn-success btn-sm" onclick="handleAdminAction('reinstate', '{{this.encryptedId}}')">REINSTATE</a>
+                            <button class="user-pg-btn btn btn-danger btn-sm" onclick="handleAdminAction('ban', '{{this.encryptedId}}')">BAN</a>
                         {{/ifEquals}}
                         {{#ifEquals this.status 'banned'}}
-                            <a href="users/reinstate/{{this.encryptedId}}" class="btn btn-success btn-sm">REINSTATE</a>
+                            <button class="user-pg-btn btn btn-success btn-sm" onclick="handleAdminAction('reinstate', '{{this.encryptedId}}')">REINSTATE</a>
                         {{/ifEquals}}
                     {{/ifEquals}}
                 </td>
