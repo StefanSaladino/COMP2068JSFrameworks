@@ -10,7 +10,7 @@ const globals = {
     "github":{
             "clientID": "Ov23lirLbSQE7yoVk7iT",
             "clientSecret": process.env.GH_CLIENT_SECRET,
-            "callbackUrl": "https://placefinder.onrender.com/github/callback"
+            "callbackUrl": "http://localhost:3000/github/callback"
         }  
 }
 

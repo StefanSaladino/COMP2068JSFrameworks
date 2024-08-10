@@ -85,7 +85,7 @@ passport.deserializeUser(User.deserializeUser());
 passport.use(new githubStrategy({
   clientID: globals.github.clientID,
   clientSecret: globals.github.clientSecret,
-  callbackURL: globals.github.callbackURL,
+  callbackURL: globals.github.callbackUrl
 },
   async (accessToken, refreshToken, profile, done) => {
     const user = await User.findOne({ oauthId: profile.id });
@@ -97,7 +97,9 @@ passport.use(new githubStrategy({
         username: profile.username,
         oauthId: profile.id,
         oauthProvider: "Github",
-        created: Date.now()
+        lastSignIn: "",
+        isVerified: true,
+        favourites: [],
       });
       const savedUser = await newUser.save();
       return done(null, savedUser);

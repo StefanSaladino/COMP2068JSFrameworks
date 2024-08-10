@@ -11,9 +11,11 @@ const dataSchemaObj = {
   },
   firstName: {
     type: String,
+    required: false,
   },
   lastName: {
     type: String,
+    required: false,
   },
   password: {
     type: String,
