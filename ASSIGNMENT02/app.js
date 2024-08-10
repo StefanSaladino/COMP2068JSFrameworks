@@ -90,6 +90,7 @@ passport.use(new githubStrategy({
   async (accessToken, refreshToken, profile, done) => {
     const user = await User.findOne({ oauthId: profile.id });
     if(user) {
+      user.lastSignIn = new Date;
       return done(null, user);
     }
     else{
@@ -97,7 +98,7 @@ passport.use(new githubStrategy({
         username: profile.username,
         oauthId: profile.id,
         oauthProvider: "Github",
-        lastSignIn: "",
+        lastSignIn: Date.now(),
         isVerified: true,
         favourites: [],
       });

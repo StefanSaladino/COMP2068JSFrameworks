@@ -1,29 +1,29 @@
 <h1>{{title}}</h1>
 
 <section class="user-cards">
-<div class="card">
-  <h5 class="card-header bg-dark">User Info</h5>
-  <div class="card-body">
-    <h5 class="card-title">Username</h5>
-    <p class="card-text">{{renderedUser.username}}</p>
-    <h5 class="card-title">Role</h5>
-    <p class="card-text">{{role}}</p>
-    <h5 class="card-title">Status</h5>
-    <p class="card-text">{{status}}</p>
+  <div class="card">
+    <h5 class="card-header bg-dark">User Info</h5>
+    <div class="card-body">
+      <h5 class="card-title">Username</h5>
+      <p class="card-text">{{renderedUser.username}}</p>
+      <h5 class="card-title">Role</h5>
+      <p class="card-text">{{role}}</p>
+      <h5 class="card-title">Status</h5>
+      <p class="card-text">{{#if status}}{{status}}{{else}}-{{/if}}</p>
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <h5 class="card-header bg-dark">Insights</h5>
-  <div class="card-body">
-    <h5 class="card-title">Last Sign In Time</h5>
-    <p class="card-text">{{formatDateEST lastSignIn}}</p>
-    <h5 class="card-title">Number of API Calls</h5>
-    <p class="card-text">{{apiCalls}}</p>
-    <h5 class="card-title">Number of Favourited Spots</h5>
-    <p class="card-text">{{favourites}}</p>
-    <h5 class="card-title">Verified Account</h5>
-    <p class="card-text">{{verifiedAccount}}</p>
+  <div class="card">
+    <h5 class="card-header bg-dark">Insights</h5>
+    <div class="card-body">
+      <h5 class="card-title">Last Sign In Time</h5>
+      <p class="card-text">{{#if lastSignIn}}{{formatDateEST lastSignIn}}{{else}}-{{/if}}</p>
+      <h5 class="card-title">Number of API Calls</h5>
+      <p class="card-text">{{#if apiCalls}}{{apiCalls}}{{else}}-{{/if}}</p>
+      <h5 class="card-title">Number of Favourited Spots</h5>
+      <p class="card-text">{{#if favourites}}{{favourites}}{{else}}-{{/if}}</p>
+      <h5 class="card-title">Verified Account</h5>
+      <p class="card-text">{{#if verifiedAccount}}Yes{{else}}-{{/if}}</p>
+    </div>
   </div>
-</div>
 </section>
